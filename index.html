@@ -1,208 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lina Hub 🌸 Steal a Brainrot</title>
-  <!-- Liaison avec la feuille de style CSS -->
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nexia Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- En-tête -->
-  <header class="header">
-    <div class="brand">
-      <span>🌸</span>
-      <span>Lina Hub</span>
-    </div>
-    <button class="admin-btn" onclick="toggleAdmin()">
-      🔒 <span id="admin-btn-text">Admin</span>
-    </button>
-  </header>
-
-  <!-- ================= VUE 1 : HUB D'ACCUEIL ================= -->
-  <main id="page-hub" class="container">
-
-    <!-- Profil -->
-    <section class="profile">
-      <div class="avatar-wrapper">
-        <img class="avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar Lina">
-        <span class="badge-online"></span>
-      </div>
-      <h1>Lina ✨</h1>
-      <p>Streameuse Roblox • Steal a Brainrot 🧠💎</p>
-    </section>
-
-    <!-- Statut Live TikTok -->
-    <section id="section-live" class="live-banner">
-      <div class="live-left">
-        <span class="live-dot"></span>
-        <div>
-          <span class="live-tag">En direct sur TikTok</span>
-          <p class="live-text">Trades de Brainrots rares en cours !</p>
-        </div>
-      </div>
-      <a href="https://tiktok.com" target="_blank" class="btn-primary">Rejoindre 🔴</a>
-      <button class="admin-eye" onclick="toggleSection('section-live')">👁️</button>
-    </section>
-
-    <!-- Bouton vers le simulateur de Trade -->
-    <div>
-      <button class="btn-primary btn-trade-open" onclick="showTradePage()">
-        ⚖️ Ouvrir le Calculateur de Trade & Shop
-      </button>
-    </div>
-
-    <!-- Section Boutique -->
-    <section id="section-shop">
-      <div class="section-header">
-        <h2 class="section-title">🧠 Shop Steal a Brainrot</h2>
-        <button class="admin-eye" onclick="toggleSection('section-shop')">👁️</button>
-      </div>
-
-      <div class="shop-grid">
-        <!-- Item 1 -->
-        <div class="shop-card">
-          <div>
-            <div class="card-preview">
-              <span class="tag-rarity tag-og">OG SECRET</span>
-              🍓🐘
-              <span class="tag-status status-dispo">🟢 Dispo</span>
-            </div>
-            <h3 class="card-title">Strawberry Elephant</h3>
-            <p class="card-desc">Production légendaire maximale pour le leaderboard.</p>
-            <p class="card-stat">+1,2 B/s</p>
-          </div>
-          <div class="card-footer">
-            <span class="card-price">18,00 €</span>
-            <button class="btn-card-trade" onclick="openTradeWith('Strawberry Elephant', 1200000000)">Trader ⚖️</button>
-          </div>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="shop-card">
-          <div>
-            <div class="card-preview">
-              <span class="tag-rarity tag-secret">SECRET GOLD</span>
-              🐉🍝
-              <span class="tag-status status-reserve">🟡 Réservé</span>
-            </div>
-            <h3 class="card-title">Dragon Cannelloni</h3>
-            <p class="card-desc">Mutation dorée brillante avec aura néon.</p>
-            <p class="card-stat">+350 M/s</p>
-          </div>
-          <div class="card-footer">
-            <span class="card-price">10,00 €</span>
-            <button class="btn-card-trade" onclick="openTradeWith('Dragon Cannelloni', 350000000)">Trader ⚖️</button>
-          </div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="shop-card">
-          <div>
-            <div class="card-preview">
-              <span class="tag-rarity tag-mythic">MYTHIC</span>
-              🧂✨
-              <span class="tag-status status-dispo">🟢 Dispo</span>
-            </div>
-            <h3 class="card-title">Garama & Madundung</h3>
-            <p class="card-desc">Le duo mythique et rapide en génération.</p>
-            <p class="card-stat">+85 M/s</p>
-          </div>
-          <div class="card-footer">
-            <span class="card-price">5,00 €</span>
-            <button class="btn-card-trade" onclick="openTradeWith('Garama & Madundung', 85000000)">Trader ⚖️</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Réseaux -->
-    <section id="section-links">
-      <div class="section-header">
-        <h2 class="section-title">Mes Réseaux</h2>
-        <button class="admin-eye" onclick="toggleSection('section-links')">👁️</button>
-      </div>
-
-      <div class="links-grid">
-        <a href="https://tiktok.com" target="_blank" class="link-box">
-          <span style="font-size:1.4rem;">🎵</span>
-          <span>TikTok Officiel</span>
-        </a>
-        <a href="https://discord.gg" target="_blank" class="link-box">
-          <span style="font-size:1.4rem;">💬</span>
-          <span>Serveur Discord</span>
-        </a>
-        <a href="https://roblox.com" target="_blank" class="link-box">
-          <span style="font-size:1.4rem;">🧱</span>
-          <span>Profil Roblox</span>
-        </a>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ================= VUE 2 : PAGE DÉDIÉE AU TRADE ================= -->
-  <main id="page-trade" class="container hidden">
-
-    <div class="trade-header">
-      <button class="admin-btn" onclick="showHubPage()">◀ Retour à la Boutique</button>
-      <span style="font-size:0.8rem;font-weight:800;color:var(--pink-accent);">SIMULATEUR DE TRADE</span>
-    </div>
-
-    <div class="trade-duo">
-      <!-- Toi -->
-      <div class="trade-box">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <strong style="font-size:0.85rem;">TON OFFRE</strong>
-          <button class="btn-card-trade" onclick="addItem('user')">+ Item</button>
-        </div>
-        <div id="user-items" class="trade-items-list">
-          <p style="text-align:center;font-size:0.75rem;color:#999;padding-top:20px;">Aucun item</p>
-        </div>
-        <div>
-          <label style="font-size:0.7rem;font-weight:700;display:block;margin-bottom:4px;">+ Argent Réel (€) :</label>
-          <input type="number" id="cash-input" class="input-field" placeholder="Ex: 5" min="0" oninput="renderTrade()">
-        </div>
-        <p id="user-stat" style="text-align:right;font-weight:800;font-size:0.85rem;color:var(--pink-dark);">0 /s</p>
-      </div>
-
-      <!-- Lina -->
-      <div class="trade-box">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <strong style="font-size:0.85rem;">OFFRE DE LINA</strong>
-          <button class="btn-card-trade" onclick="addItem('lina')">+ Item</button>
-        </div>
-        <div id="lina-items" class="trade-items-list">
-          <p style="text-align:center;font-size:0.75rem;color:#999;padding-top:20px;">Aucun item</p>
-        </div>
-        <div style="visibility:hidden;height:45px;"></div>
-        <p id="lina-stat" style="text-align:right;font-weight:800;font-size:0.85rem;color:var(--pink-dark);">0 /s</p>
-      </div>
-    </div>
-
-    <!-- Récapitulatif -->
-    <div class="trade-summary-card">
-      <strong style="display:block;margin-bottom:4px;font-size:0.8rem;">RÉCAPITULATIF DE L'OFFRE</strong>
-      <p id="summary-text" style="color:var(--text-muted);font-size:0.8rem;">Configure ton échange ci-dessus.</p>
-    </div>
-
-    <!-- Coordonnées -->
-    <div class="trade-box">
-      <strong style="font-size:0.85rem;">TES COORDONNÉES</strong>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <input type="text" id="pseudo-input" class="input-field" placeholder="Pseudo Roblox ou TikTok *">
-        <input type="text" id="discord-input" class="input-field" placeholder="Pseudo Discord">
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;">
-        <button class="admin-btn" style="padding:10px;" onclick="copyTrade()">📋 Copier l'Offre</button>
-        <button class="btn-primary" onclick="openDiscord()">💬 Envoyer sur Discord</button>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Liaison avec le fichier JavaScript -->
-  <script src="script.js"></script>
+<header class="nav"><b>🌸 Nexia Hub</b><div class="acts"><button class="tgl" id="tgl" type="button" aria-pressed="false">🌙 Sombre</button><button class="admin" id="adm" type="button">Admin</button></div></header>
+<main>
+  <section class="hero">
+    <div class="avatar" aria-hidden="true">🧠</div>
+    <h1>Nexia ✨</h1>
+    <p class="sub">Streameuse sur TikTok</p>
+  </section>
+  <div id="live" data-k="live"></div>
+  <section data-k="nets"><h2 class="sec">RETROUVE NEXIA PARTOUT</h2><div class="nets" id="nets"></div></section>
+  <section data-k="pseudos"><h2 class="sec">SES PSEUDOS EN JEU</h2><div class="nets" id="ps"></div></section>
+  <div data-k="calc"><a class="calc" href="#">⚖️ Ouvrir le calculateur de trade &amp; shop</a></div>
+  <section data-k="shop"><h2 class="sec">🧠 SHOP STEAL A BRAINROT</h2><div class="grid" id="shop"></div></section>
+</main>
+<div class="bar" id="bar"><span><b id="n">0</b> brainrot · <b id="t">0 €</b></span><button class="btn">Proposer un trade</button></div>
+<script id="state" type="application/json">{"live": false, "hidden": {}, "links": {"tiktok": "", "discord": "", "instagram": ""}, "pseudos": {"fortnite": "PseudoFortnite", "roblox": "PseudoRoblox"}, "pw": "60ef0d7df09492949bd8db7af111bd848319ae39755fe3f58f5cd51e3a4b1ccb"}</script>
+<script src="script.js"></script>
 </body>
 </html>
