@@ -47,17 +47,24 @@ async function save(){
   if(!r.ok)return"err";
   return Array.isArray(j)&&j.length?"ok":"auth";
 }
-function logout(){tok=null;try{sessionStorage.removeItem("nx-tok")}catch(e){}adm=false;var p=$("panel");if(p)p.remove();$("adm").textContent="Admin";vis()}
+function logout(){tok=null;try{sessionStorage.removeItem("nx-tok")}catch(e){}adm=false;closeP();$("adm").textContent="Admin";vis()}
+function closeP(){var p=$("panel");if(p)p.remove();document.body.classList.remove("sheet")}
+function swipe(p){
+  var y0=null,dy=0,h=p.querySelector(".hd");
+  h.addEventListener("touchstart",function(e){y0=e.touches[0].clientY;dy=0;p.style.transition="none"},{passive:true});
+  h.addEventListener("touchmove",function(e){if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);p.style.transform="translateY("+dy+"px)"},{passive:true});
+  h.addEventListener("touchend",function(){if(y0===null)return;p.style.transition="";if(dy>70){closeP()}else{p.style.transform=""}y0=null});
+}
 function panel(){
-  var p=$("panel");if(p){p.remove();return}
+  var p=$("panel");if(p){closeP();return}
   p=document.createElement("aside");p.id="panel";
   var f=function(l,k,ph){return '<label>'+l+'<input class="fld" data-l="'+k+'" placeholder="'+ph+'" value="'+esc(S.links[k])+'"></label>'};
   var g=function(l,k){return '<label>'+l+'<input class="fld" data-g="'+k+'" value="'+esc(S.pseudos[k])+'"></label>'};
-  p.innerHTML='<h3>Panneau admin</h3><p class="hint">Les yeux sur la page cachent ou affichent chaque partie. Pense à enregistrer.</p><button type="button" class="livebtn" id="lv"></button>'+
+  p.innerHTML='<div class="hd"><div class="grab"></div><h3>Panneau admin</h3></div><p class="hint">Les yeux sur la page cachent ou affichent chaque partie. Pense à enregistrer.</p><button type="button" class="livebtn" id="lv"></button>'+
    f("Lien TikTok","tiktok","https://www.tiktok.com/@nexia")+f("Lien Discord","discord","https://discord.gg/…")+f("Lien Instagram","instagram","https://www.instagram.com/…")+
    g("Pseudo Fortnite","fortnite")+g("Pseudo Roblox","roblox")+
    '<button type="button" class="save" id="sv">Enregistrer</button><p class="msg" id="msg"></p><button type="button" class="out" id="lo">Se déconnecter</button>';
-  document.body.appendChild(p);
+  document.body.appendChild(p);document.body.classList.add("sheet");swipe(p);
   var lv=$("lv");function lvT(){lv.setAttribute("aria-pressed",S.live?"true":"false");lv.textContent=S.live?"En live : OUI (cliquer pour couper)":"En live : NON (cliquer pour activer)"}lvT();
   lv.onclick=function(){S.live=!S.live;lvT();renderLive();vis();touch()};
   p.addEventListener("input",function(e){var t=e.target;
