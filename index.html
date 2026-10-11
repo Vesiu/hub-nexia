@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lina Hub 🌸 Steal a Brainrot</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cream: '#FFF9F9',
+              pinkSoft: '#FCE7ED',
+              pinkMuted: '#F4B6C2',
+              pinkDark: '#E27396',
+              textDark: '#4A3E3D'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-[#FFF8F9] text-brand-textDark font-sans min-h-screen relative antialiased selection:bg-brand-pinkMuted selection:text-white">
+
+  <!-- ================= BARRE DU HAUT ================= -->
+  <header class="sticky top-0 z-40 glass border-b border-brand-pinkSoft/60 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-xl">🌸</span>
+      <span class="font-bold tracking-tight text-brand-dark">Lina • TikTok Hub</span>
+    </div>
+    
+    <!-- Bouton Mode Admin -->
+    <div class="flex items-center gap-2">
+      <button id="admin-toggle-btn" onclick="toggleAdminPrompt()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-brand-pinkMuted/40 text-brand-pinkDark hover:bg-brand-pinkSoft transition shadow-sm">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span id="admin-status-text">Admin</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= VUE 1 : LE HUB PRINCIPAL ================= -->
+  <main id="view-hub" class="max-w-md mx-auto px-4 py-6 space-y-6">
+
+    <!-- Profil & Bannière -->
+    <section class="text-center space-y-3">
+      <div class="relative inline-block">
+        <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-brand-pinkDark via-brand-pinkMuted to-white shadow-md mx-auto">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar Lina" class="w-full h-full object-cover rounded-full">
+        </div>
+        <span class="absolute bottom-1 right-1 bg-emerald-500 border-2 border-white w-4 h-4 rounded-full"></span>
+      </div>
+      <div>
+        <h1 class="text-xl font-extrabold tracking-tight">Lina ✨</h1>
+        <p class="text-xs text-brand-textDark/70 font-medium">Streameuse Roblox • Steal a Brainrot 🧠💎</p>
+      </div>
+    </section>
+
+    <!-- SECTION LIVE TIKTOK (Masquable avec œil) -->
+    <section id="section-live" class="relative group p-4 rounded-2xl glass border border-brand-pinkMuted/30 shadow-sm transition-all">
+      <button onclick="toggleVisibility('live')" class="admin-eye hidden absolute top-3 right-3 p-1.5 rounded-full bg-white/90 border border-brand-pinkSoft shadow text-brand-pinkDark z-20">
+        <i data-lucide="eye" class="w-4 h-4"></i>
+      </button>
+      <div class="flex items-center gap-3">
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
+        </span>
+        <div class="flex-1">
+          <p class="text-xs uppercase tracking-wider font-bold text-rose-500">En direct sur TikTok</p>
+          <p class="text-xs font-medium text-brand-textDark/80">On trade les Brainrots rares ! Rejoins-nous 🎮</p>
+        </div>
+        <a href="https://tiktok.com" target="_blank" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold shadow-sm hover:opacity-90">
+          Rejoindre
+        </a>
+      </div>
+    </section>
+
+    <!-- BOUTON D'ACCÈS AU TRADE CALCULATOR -->
+    <div class="text-center">
+      <button onclick="openTradeView()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-brand-pinkDark via-pink-400 to-brand-pinkMuted text-white font-bold text-sm shadow-md hover:shadow-lg transition-transform active:scale-[0.98] flex items-center justify-center gap-2">
+        <span>⚖️ Ouvrir le Calculateur de Trade & Shop</span>
+      </button>
+    </div>
+
+    <!-- SECTION SHOP CARROUSEL VERTICAL (Masquable avec œil) -->
+    <section id="section-shop" class="relative group space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-brand-dark flex items-center gap-1.5">
+            <span>🧠 Shop Steal a Brainrot</span>
+          </h2>
+        </div>
+        <!-- Bouton masquage œil -->
+        <button onclick="toggleVisibility('shop')" class="admin-eye hidden p-1.5 rounded-full bg-white border border-brand-pinkSoft shadow-sm text-brand-pinkDark">
+          <i data-lucide="eye" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Carrousel avec boutons gauche / droite -->
+      <div class="relative">
+        <button onclick="scrollShop(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-30 w-8 h-8 rounded-full glass border border-brand-pinkSoft/60 shadow flex items-center justify-center text-brand-dark">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+
+        <div id="shop-carousel" class="flex gap-4 overflow-x-auto no-scrollbar py-2 px-1 snap-x snap-mandatory scroll-smooth">
+          <!-- Item 1 -->
+          <div class="snap-center shrink-0 w-[240px] rounded-2xl glass border border-brand-pinkSoft/70 p-3 shadow-sm flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="relative h-28 rounded-xl bg-amber-50/60 border border-amber-200/50 flex items-center justify-center text-4xl shadow-inner">
+                🍓🐘
+                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-gradient-to-r from-amber-400 to-rose-400 text-white shadow-xs">OG SECRET</span>
+              </div>
+              <h3 class="font-bold text-sm">Strawberry Elephant</h3>
+              <p class="text-[11px] text-brand-textDark/70">Production colossale, état parfait.</p>
+              <p class="text-xs font-extrabold text-brand-pinkDark">+1,2 B/s</p>
+            </div>
+            <div class="pt-3 border-t border-brand-pinkSoft/50 mt-3 flex items-center justify-between">
+              <span class="text-xs font-bold">18,00 €</span>
+              <button onclick="openTradeWithItem('Strawberry Elephant', 1200000000)" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-brand-pinkSoft text-brand-pinkDark hover:bg-brand-pinkMuted hover:text-white transition">
+                Trader ⚖️
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="snap-center shrink-0 w-[240px] rounded-2xl glass border border-brand-pinkSoft/70 p-3 shadow-sm flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="relative h-28 rounded-xl bg-purple-50/60 border border-purple-200/50 flex items-center justify-center text-4xl shadow-inner">
+                🐉🍝
+                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-purple-500 text-white shadow-xs">SECRET GOLD</span>
+              </div>
+              <h3 class="font-bold text-sm">Dragon Cannelloni</h3>
+              <p class="text-[11px] text-brand-textDark/70">Mutation dorée brillante, très rare.</p>
+              <p class="text-xs font-extrabold text-brand-pinkDark">+350 M/s</p>
+            </div>
+            <div class="pt-3 border-t border-brand-pinkSoft/50 mt-3 flex items-center justify-between">
+              <span class="text-xs font-bold">10,00 €</span>
+              <button onclick="openTradeWithItem('Dragon Cannelloni', 350000000)" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-brand-pinkSoft text-brand-pinkDark hover:bg-brand-pinkMuted hover:text-white transition">
+                Trader ⚖️
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="snap-center shrink-0 w-[240px] rounded-2xl glass border border-brand-pinkSoft/70 p-3 shadow-sm flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="relative h-28 rounded-xl bg-pink-50/60 border border-pink-200/50 flex items-center justify-center text-4xl shadow-inner">
+                🧂✨
+                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-pink-400 text-white shadow-xs">MYTHIC</span>
+              </div>
+              <h3 class="font-bold text-sm">Garama & Madundung</h3>
+              <p class="text-[11px] text-brand-textDark/70">Combo emblématique du jeu.</p>
+              <p class="text-xs font-extrabold text-brand-pinkDark">+85 M/s</p>
+            </div>
+            <div class="pt-3 border-t border-brand-pinkSoft/50 mt-3 flex items-center justify-between">
+              <span class="text-xs font-bold">5,00 €</span>
+              <button onclick="openTradeWithItem('Garama & Madundung', 85000000)" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-brand-pinkSoft text-brand-pinkDark hover:bg-brand-pinkMuted hover:text-white transition">
+                Trader ⚖️
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="scrollShop(1)" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-30 w-8 h-8 rounded-full glass border border-brand-pinkSoft/60 shadow flex items-center justify-center text-brand-dark">
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION RÉSEAUX & LIENS (Masquable avec œil) -->
+    <section id="section-links" class="relative group space-y-2.5">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-brand-dark">Mes Réseaux</h2>
+        <button onclick="toggleVisibility('links')" class="admin-eye hidden p-1.5 rounded-full bg-white border border-brand-pinkSoft shadow-sm text-brand-pinkDark">
+          <i data-lucide="eye" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <a href="https://tiktok.com" target="_blank" class="w-full p-3.5 rounded-2xl glass border border-brand-pinkSoft/60 shadow-sm flex items-center justify-between hover:bg-brand-pinkSoft/40 transition">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">🎵</span>
+          <span class="text-xs font-bold">TikTok Officiel</span>
+        </div>
+        <i data-lucide="external-link" class="w-4 h-4 text-brand-dark/50"></i>
+      </a>
+      <a href="https://discord.gg" target="_blank" class="w-full p-3.5 rounded-2xl glass border border-brand-pinkSoft/60 shadow-sm flex items-center justify-between hover:bg-brand-pinkSoft/40 transition">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">💬</span>
+          <span class="text-xs font-bold">Serveur Discord</span>
+        </div>
+        <i data-lucide="external-link" class="w-4 h-4 text-brand-dark/50"></i>
+      </a>
+      <a href="https://roblox.com" target="_blank" class="w-full p-3.5 rounded-2xl glass border border-brand-pinkSoft/60 shadow-sm flex items-center justify-between hover:bg-brand-pinkSoft/40 transition">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">🧱</span>
+          <span class="text-xs font-bold">Profil Roblox</span>
+        </div>
+        <i data-lucide="external-link" class="w-4 h-4 text-brand-dark/50"></i>
+      </a>
+    </section>
+  </main>
+
+  <!-- ================= VUE 2 : PAGE DÉDIÉE AU TRADE CALCULATOR ================= -->
+  <main id="view-trade" class="hidden max-w-lg mx-auto px-4 py-6 space-y-5">
+    <div class="flex items-center justify-between">
+      <button onclick="closeTradeView()" class="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-white border border-brand-pinkSoft text-brand-pinkDark shadow-sm hover:bg-brand-pinkSoft">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <span>Retour au Hub</span>
+      </button>
+      <span class="text-xs font-bold uppercase tracking-wider text-brand-pinkDark">Simulateur d'échange</span>
+    </div>
+
+    <!-- Zone de Trade Face-à-Face -->
+    <div class="grid grid-cols-2 gap-3">
+      
+      <!-- Colonne Viewer (Toi) -->
+      <div class="glass p-3 rounded-2xl border border-brand-pinkSoft/80 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase text-brand-dark">Ton Offre</span>
+          <button onclick="addItemPrompt('user')" class="text-[10px] font-bold text-brand-pinkDark bg-brand-pinkSoft px-2 py-0.5 rounded-md">+ Item</button>
+        </div>
+        <div id="user-trade-list" class="min-h-[90px] space-y-1.5 text-xs text-brand-dark/60">
+          <p class="text-[11px] italic text-center pt-6">Ajoute un item</p>
+        </div>
+        <!-- Option d'ajout en cash réel (€) -->
+        <div class="pt-2 border-t border-brand-pinkSoft/60">
+          <label class="text-[10px] font-bold text-brand-dark/70 block mb-1">+ Argent Réel (€) :</label>
+          <input type="number" id="user-cash-input" min="0" step="0.5" placeholder="0 €" oninput="updateTradeTotals()" class="w-full text-xs px-2.5 py-1.5 rounded-xl border border-brand-pinkSoft bg-white/90 focus:outline-none focus:ring-1 focus:ring-brand-pinkDark">
+        </div>
+        <p class="text-[11px] font-extrabold text-brand-pinkDark text-right" id="user-total-stat">0 /s</p>
+      </div>
+
+      <!-- Colonne Lina (Shop) -->
+      <div class="glass p-3 rounded-2xl border border-brand-pinkSoft/80 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase text-brand-dark">Offre de Lina</span>
+          <button onclick="addItemPrompt('lina')" class="text-[10px] font-bold text-brand-pinkDark bg-brand-pinkSoft px-2 py-0.5 rounded-md">+ Item</button>
+        </div>
+        <div id="lina-trade-list" class="min-h-[90px] space-y-1.5 text-xs text-brand-dark/60">
+          <p class="text-[11px] italic text-center pt-6">Ajoute un item</p>
+        </div>
+        <div class="pt-2 border-t border-brand-pinkSoft/60 text-transparent select-none text-[10px]">—</div>
+        <p class="text-[11px] font-extrabold text-brand-pinkDark text-right" id="lina-total-stat">0 /s</p>
+      </div>
+    </div>
+
+    <!-- Récapitulatif simple -->
+    <div class="p-3.5 rounded-2xl glass border border-brand-pinkSoft text-center space-y-1">
+      <p class="text-xs font-bold uppercase tracking-wider text-brand-dark">Récapitulatif de l'offre</p>
+      <p id="trade-summary-text" class="text-xs text-brand-textDark/80">Configure ton échange ci-dessus.</p>
+    </div>
+
+    <!-- Formulaire coordonnées Discord & Roblox -->
+    <div class="glass p-4 rounded-2xl border border-brand-pinkSoft/80 space-y-3">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-brand-dark">Tes Coordonnées</h3>
+      <div class="space-y-2">
+        <input type="text" id="input-roblox" placeholder="Ton pseudo Roblox ou TikTok *" class="w-full text-xs px-3 py-2 rounded-xl border border-brand-pinkSoft bg-white/95 focus:outline-none focus:ring-1 focus:ring-brand-pinkDark">
+        <input type="text" id="input-discord" placeholder="Ton identifiant Discord (ex: pseudo#0000)" class="w-full text-xs px-3 py-2 rounded-xl border border-brand-pinkSoft bg-white/95 focus:outline-none focus:ring-1 focus:ring-brand-pinkDark">
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button onclick="copyOfferText()" class="w-full py-2.5 px-3 rounded-xl bg-white border border-brand-pinkMuted text-brand-pinkDark text-xs font-bold shadow-xs hover:bg-brand-pinkSoft flex items-center justify-center gap-1.5">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>Copier l'Offre</span>
+        </button>
+        <button onclick="sendToDiscord()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-brand-pinkDark to-pink-500 text-white text-xs font-bold shadow-xs hover:opacity-95 flex items-center justify-center gap-1.5">
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+          <span>Envoyer Discord</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script>
+    // Initialisation des icônes Lucide
+    lucide.createIcons();
+
+    let isAdmin = false;
+    let userTradeItems = [];
+    let linaTradeItems = [];
+
+    // Navigation Carrousel
+    function scrollShop(dir) {
+      const container = document.getElementById('shop-carousel');
+      container.scrollBy({ left: dir * 260, behavior: 'smooth' });
+    }
+
+    // Bascule Admin
+    function toggleAdminPrompt() {
+      if (!isAdmin) {
+        const pwd = prompt('Mot de passe administrateur :');
+        if (pwd === 'admin123') {
+          isAdmin = true;
+          document.getElementById('admin-status-text').textContent = 'Admin (Actif)';
+          document.querySelectorAll('.admin-eye').forEach(el => el.classList.remove('hidden'));
+          alert('Mode Admin activé !');
+        } else if (pwd !== null) {
+          alert('Mot de passe incorrect.');
+        }
+      } else {
+        isAdmin = false;
+        document.getElementById('admin-status-text').textContent = 'Admin';
+        document.querySelectorAll('.admin-eye').forEach(el => el.classList.add('hidden'));
+        alert('Mode Admin déconnecté.');
+      }
+    }
+
+    // Masquage de section avec les yeux
+    function toggleVisibility(sectionKey) {
+      const el = document.getElementById(`section-${sectionKey}`);
+      if (!el) return;
+      if (el.classList.contains('opacity-25')) {
+        el.classList.remove('opacity-25', 'grayscale');
+      } else {
+        el.classList.add('opacity-25', 'grayscale');
+      }
+    }
+
+    // Navigation entre Hub et Simulateur
+    function openTradeView() {
+      document.getElementById('view-hub').classList.add('hidden');
+      document.getElementById('view-trade').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function closeTradeView() {
+      document.getElementById('view-trade').classList.add('hidden');
+      document.getElementById('view-hub').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function openTradeWithItem(name, rate) {
+      openTradeView();
+      linaTradeItems = [{ name, rate }];
+      renderTradeLists();
+    }
+
+    // Ajout manuel d'items dans le trade
+    function addItemPrompt(side) {
+      const name = prompt("Nom de l'item :");
+      if (!name) return;
+      const rateInput = prompt("Production par seconde (en Millions, ex: 100 pour 100M/s) :", "100");
+      const rate = (parseFloat(rateInput) || 0) * 1000000;
+
+      if (side === 'user') {
+        userTradeItems.push({ name, rate });
+      } else {
+        linaTradeItems.push({ name, rate });
+      }
+      renderTradeLists();
+    }
+
+    function formatRate(num) {
+      if (num >= 1000000000) return `+${(num / 1000000000).toFixed(1)} B/s`;
+      if (num >= 1000000) return `+${(num / 1000000).toFixed(0)} M/s`;
+      return `+${num} /s`;
+    }
+
+    function renderTradeLists() {
+      const uEl = document.getElementById('user-trade-list');
+      const lEl = document.getElementById('lina-trade-list');
+
+      uEl.innerHTML = userTradeItems.length === 0 
+        ? '<p class="text-[11px] italic text-center pt-6">Ajoute un item</p>'
+        : userTradeItems.map((it, i) => `
+          <div class="flex items-center justify-between bg-white/70 px-2 py-1 rounded-lg">
+            <span>${it.name}</span>
+            <button onclick="removeItem('user', ${i})" class="text-rose-400 font-bold ml-1">×</button>
+          </div>
+        `).join('');
+
+      lEl.innerHTML = linaTradeItems.length === 0 
+        ? '<p class="text-[11px] italic text-center pt-6">Ajoute un item</p>'
+        : linaTradeItems.map((it, i) => `
+          <div class="flex items-center justify-between bg-white/70 px-2 py-1 rounded-lg">
+            <span>${it.name}</span>
+            <button onclick="removeItem('lina', ${i})" class="text-rose-400 font-bold ml-1">×</button>
+          </div>
+        `).join('');
+
+      updateTradeTotals();
+    }
+
+    function removeItem(side, index) {
+      if (side === 'user') userTradeItems.splice(index, 1);
+      else linaTradeItems.splice(index, 1);
+      renderTradeLists();
+    }
+
+    function updateTradeTotals() {
+      const userTotal = userTradeItems.reduce((acc, it) => acc + it.rate, 0);
+      const linaTotal = linaTradeItems.reduce((acc, it) => acc + it.rate, 0);
+      const cashVal = parseFloat(document.getElementById('user-cash-input').value) || 0;
+
+      document.getElementById('user-total-stat').textContent = `${formatRate(userTotal)} ${cashVal > 0 ? `(+${cashVal}€)` : ''}`;
+      document.getElementById('lina-total-stat').textContent = formatRate(linaTotal);
+
+      document.getElementById('trade-summary-text').textContent = 
+        `Ton offre : ${userTradeItems.length} item(s) (${formatRate(userTotal)})${cashVal > 0 ? ` + ${cashVal} €` : ''} ➔ Offre de Lina : ${linaTradeItems.length} item(s) (${formatRate(linaTotal)})`;
+    }
+
+    function generateOfferMessage() {
+      const pseudo = document.getElementById('input-roblox').value.trim() || 'Anonyme';
+      const discord = document.getElementById('input-discord').value.trim() || 'Non renseigné';
+      const cashVal = parseFloat(document.getElementById('user-cash-input').value) || 0;
+      
+      const userItemsStr = userTradeItems.map(it => `• ${it.name} (${formatRate(it.rate)})`).join('\n') || 'Aucun item';
+      const linaItemsStr = linaTradeItems.map(it => `• ${it.name} (${formatRate(it.rate)})`).join('\n') || 'Aucun item';
+
+      return `🌸 PROPOSITION DE TRADE ROBLOX\n` +
+             `━━━━━━━━━━━━━━━━━━━━\n` +
+             `👤 Pseudo : ${pseudo}\n` +
+             `💬 Discord : ${discord}\n\n` +
+             `📥 IL DONNE :\n${userItemsStr}\n` +
+             (cashVal > 0 ? `💶 Argent réel : +${cashVal} €\n` : '') +
+             `\n📤 IL SOUHAITE :\n${linaItemsStr}`;
+    }
+
+    function copyOfferText() {
+      const msg = generateOfferMessage();
+      navigator.clipboard.writeText(msg).then(() => {
+        alert('Proposition copiée dans le presse-papier !');
+      });
+    }
+
+    function sendToDiscord() {
+      copyOfferText();
+      window.open('https://discord.com', '_blank');
+    }
+  </script>
+</body>
+</html>
