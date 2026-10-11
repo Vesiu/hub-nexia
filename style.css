@@ -81,3 +81,6 @@ a:focus-visible,.btn:focus-visible,.tgl:focus-visible{outline:2px solid var(--pi
 .modal{position:fixed;inset:0;z-index:60;background:rgba(58,31,45,.45);display:grid;place-items:center;padding:20px}
 .box{width:min(360px,100%);background:var(--card);color:var(--ink);border-radius:20px;padding:22px}
 .rw{display:flex;gap:10px}.rw .btn,.rw .save{margin:0;flex:1;padding:12px}
+
+main{transition:opacity .25s}
+body:not(.ready) main{opacity:0}
