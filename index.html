@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lina Hub 🌸 Steal a Brainrot</title>
+  <title>Lina Hub 🌸 Steal a Brainrot Market</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
           colors: {
-            roseHub: {
-              50: '#FFF5F7',
-              100: '#FDECEF',
-              200: '#FACDD7',
-              300: '#F59EAF',
-              500: '#E75480',
-              600: '#D43867'
+            hub: {
+              bg: '#FFF8FA',
+              card: 'rgba(255, 255, 255, 0.92)',
+              pink: '#FF6B95',
+              pinkLight: '#FFE3EC',
+              pinkMuted: '#FFA6BF',
+              dark: '#2E2226'
             }
           }
         }
@@ -27,263 +33,361 @@
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .glass-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .collector-card {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .collector-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 35px -10px rgba(255, 107, 149, 0.22);
+    }
+    .holo-glow-og {
+      background: radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.35), transparent 70%);
+    }
+    .holo-glow-secret {
+      background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.35), transparent 70%);
+    }
+    .holo-glow-mythic {
+      background: radial-gradient(circle at 50% 0%, rgba(255, 107, 149, 0.35), transparent 70%);
     }
   </style>
 </head>
-<body class="bg-gradient-to-b from-[#FFF0F4] via-[#FFF9FA] to-[#FFF0F4] text-[#423235] min-h-screen antialiased selection:bg-roseHub-200">
+<body class="bg-hub-bg text-hub-dark font-sans min-h-screen antialiased selection:bg-hub-pinkLight selection:text-hub-pink">
 
-  <!-- En-tête -->
-  <header class="sticky top-0 z-40 glass-card border-b border-roseHub-200/50 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-xs">
-    <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-full bg-roseHub-100 flex items-center justify-center text-roseHub-500 font-black text-sm border border-roseHub-200">
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-hub-pinkLight/80 px-4 lg:px-12 py-3.5 flex items-center justify-between shadow-xs">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-hub-pink to-rose-300 flex items-center justify-center text-white font-black text-lg shadow-sm">
         🌸
       </div>
-      <span class="font-bold text-sm sm:text-base tracking-tight text-[#423235]">Lina Hub</span>
+      <div>
+        <span class="font-extrabold text-base tracking-tight block">Lina Hub</span>
+        <span class="text-[11px] text-hub-pink font-semibold">Steal a Brainrot Roblox</span>
+      </div>
     </div>
 
-    <button id="admin-toggle-btn" onclick="toggleAdminPrompt()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 border border-roseHub-200 text-roseHub-600 hover:bg-roseHub-50 transition shadow-xs">
-      <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-      <span id="admin-status-text">Admin</span>
-    </button>
+    <!-- Actions En-tête -->
+    <div class="flex items-center gap-3">
+      <button onclick="openTradeView()" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-hub-pink text-white text-xs font-bold shadow-sm hover:opacity-95 transition">
+        <span>⚖️ Simulateur de Trade</span>
+      </button>
+      <button id="admin-toggle-btn" onclick="toggleAdminPrompt()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white border border-hub-pinkMuted/50 text-hub-pink hover:bg-hub-pinkLight/50 transition shadow-xs">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span id="admin-status-text">Admin</span>
+      </button>
+    </div>
   </header>
 
-  <!-- VUE 1 : HUB -->
-  <main id="view-hub" class="max-w-2xl mx-auto px-4 py-8 space-y-7">
+  <!-- ================= VUE 1 : HUB COMPLET ================= -->
+  <main id="view-hub" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
 
-    <!-- Profil -->
-    <section class="text-center space-y-3">
-      <div class="relative inline-block">
-        <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-roseHub-500 via-roseHub-200 to-white shadow-md mx-auto">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar Lina" class="w-full h-full object-cover rounded-full">
+    <!-- HERO PROFILE -->
+    <section class="flex flex-col sm:flex-row items-center justify-between bg-white/90 rounded-3xl p-6 sm:p-8 border border-hub-pinkLight shadow-sm gap-6">
+      <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+        <div class="relative">
+          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl p-1 bg-gradient-to-tr from-hub-pink via-rose-300 to-amber-200 shadow-md">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Avatar" class="w-full h-full object-cover rounded-[22px]">
+          </div>
+          <span class="absolute -bottom-1 -right-1 bg-emerald-500 border-4 border-white w-6 h-6 rounded-full flex items-center justify-center text-[10px] text-white">✓</span>
         </div>
-        <span class="absolute bottom-1 right-1 bg-emerald-500 border-2 border-white w-4 h-4 rounded-full shadow-xs"></span>
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-center sm:justify-start gap-2">
+            <h1 class="text-2xl sm:text-3xl font-black text-hub-dark">Lina</h1>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-hub-pinkLight text-hub-pink">Streamer</span>
+          </div>
+          <p class="text-sm text-hub-dark/70 font-medium">Boutique officielle & trades certifiés sur Roblox <span class="font-bold text-hub-dark">Steal a Brainrot</span> 🧠✨</p>
+          <p class="text-xs text-hub-pink font-semibold">📍 Lives réguliers sur TikTok • Serveur Discord actif</p>
+        </div>
       </div>
-      <div>
-        <h1 class="text-2xl font-black tracking-tight text-[#3A2A2D]">Lina ✨</h1>
-        <p class="text-xs sm:text-sm text-[#423235]/70 font-medium">Streameuse Roblox • Steal a Brainrot 🧠💎</p>
+
+      <div class="flex flex-col w-full sm:w-auto gap-2.5">
+        <button onclick="openTradeView()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-hub-pink to-rose-400 text-white font-black text-sm shadow-md hover:shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2">
+          <span>⚖️ Calculer un Trade / Proposer une offre</span>
+        </button>
       </div>
     </section>
 
-    <!-- Statut Live -->
-    <section id="section-live" class="relative glass-card rounded-2xl border border-roseHub-200/70 p-4 shadow-sm">
-      <button onclick="toggleVisibility('live')" class="admin-eye hidden absolute top-3 right-3 p-1.5 rounded-full bg-white border border-roseHub-200 text-roseHub-500 shadow-xs z-20">
+    <!-- SECTION LIVE TIKTOK (Masquable avec œil 👁️) -->
+    <section id="section-live" class="relative group bg-white/95 rounded-2xl p-5 border border-hub-pinkLight shadow-xs">
+      <button onclick="toggleVisibility('live')" class="admin-eye hidden absolute top-4 right-4 p-2 rounded-xl bg-white border border-hub-pinkLight text-hub-pink shadow z-20">
         <i data-lucide="eye" class="w-4 h-4"></i>
       </button>
-      <div class="flex items-center gap-3">
-        <span class="relative flex h-3 w-3">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
-        </span>
-        <div class="flex-1 min-w-0">
-          <p class="text-[11px] uppercase tracking-wider font-extrabold text-rose-500">En direct sur TikTok</p>
-          <p class="text-xs text-[#423235]/85 truncate font-medium">Trades Brainrots rares en cours ! Rejoins le stream</p>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <span class="relative flex h-4 w-4">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-4 w-4 bg-rose-500"></span>
+          </span>
+          <div>
+            <p class="text-xs uppercase tracking-wider font-black text-rose-500 flex items-center gap-2">
+              <span>EN DIRECT SUR TIKTOK</span>
+              <span class="bg-rose-100 text-rose-600 px-2 py-0.5 rounded text-[10px]">LIVE</span>
+            </p>
+            <p class="text-sm font-bold text-hub-dark">On ouvre des coffres secrets et on trade en stream !</p>
+          </div>
         </div>
-        <a href="https://tiktok.com" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-roseHub-500 to-rose-400 text-white text-xs font-bold shadow-xs hover:opacity-95">
-          Rejoindre
+        <a href="https://tiktok.com" target="_blank" class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl bg-hub-dark text-white font-bold text-xs hover:bg-black transition">
+          Rejoindre le Live TikTok 🔴
         </a>
       </div>
     </section>
 
-    <!-- Bouton vers Trade Simulator -->
-    <div>
-      <button onclick="openTradeView()" class="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-roseHub-500 via-pink-400 to-roseHub-300 text-white font-extrabold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.99] flex items-center justify-center gap-2">
-        <span>⚖️ Ouvrir le Calculateur de Trade & Shop</span>
-      </button>
-    </div>
-
-    <!-- Section Shop -->
-    <section id="section-shop" class="relative space-y-3">
+    <!-- SECTION SHOP COLLECTOR (Masquable avec œil 👁️) -->
+    <section id="section-shop" class="relative space-y-5">
       <div class="flex items-center justify-between">
-        <h2 class="text-xs font-extrabold uppercase tracking-wider text-[#423235]/80 flex items-center gap-1.5">
-          <span>🧠 Shop Steal a Brainrot</span>
-        </h2>
-        <button onclick="toggleVisibility('shop')" class="admin-eye hidden p-1.5 rounded-full bg-white border border-roseHub-200 text-roseHub-500 shadow-xs">
+        <div>
+          <h2 class="text-xl font-black text-hub-dark flex items-center gap-2">
+            <span>🧠 Vitrine Collector Steal a Brainrot</span>
+          </h2>
+          <p class="text-xs text-hub-dark/60 font-medium">Items certifiés authentiques, livrés directement en jeu</p>
+        </div>
+        <button onclick="toggleVisibility('shop')" class="admin-eye hidden p-2 rounded-xl bg-white border border-hub-pinkLight text-hub-pink shadow">
           <i data-lucide="eye" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <!-- Carrousel avec flèches bien positionnées -->
-      <div class="relative group">
-        <button onclick="scrollShop(-1)" class="absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 rounded-full bg-white/95 border border-roseHub-200 text-roseHub-600 shadow-md flex items-center justify-center hover:bg-roseHub-50 transition">
-          <i data-lucide="chevron-left" class="w-5 h-5"></i>
-        </button>
+      <!-- GRILLE DES ITEMS (Format collector parfait sur PC & Mobile) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <div id="shop-carousel" class="flex gap-4 overflow-x-auto no-scrollbar py-2 px-1 snap-x snap-mandatory scroll-smooth">
-          
-          <!-- Carte 1 : Strawberry Elephant -->
-          <div class="snap-center shrink-0 w-[260px] rounded-2xl glass-card border border-roseHub-200/80 p-3.5 shadow-sm flex flex-col justify-between">
-            <div class="space-y-2.5">
-              <div class="relative h-32 rounded-xl bg-gradient-to-b from-amber-50 to-rose-50/40 border border-amber-200/60 flex items-center justify-center text-5xl shadow-inner">
-                🍓🐘
-                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-black bg-gradient-to-r from-amber-400 to-rose-400 text-white shadow-xs">OG SECRET</span>
-                <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-white/90 text-emerald-600 border border-emerald-200">Dispo</span>
-              </div>
-              <div>
-                <h3 class="font-black text-sm">Strawberry Elephant</h3>
-                <p class="text-[11px] text-[#423235]/70 line-clamp-2">L'item le plus recherché du jeu, production maximale.</p>
-              </div>
-              <p class="text-xs font-black text-roseHub-500">+1,2 B/s</p>
+        <!-- CARTE 1 : Strawberry Elephant -->
+        <div class="collector-card relative rounded-3xl bg-white border border-hub-pinkLight p-4 shadow-sm flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 holo-glow-og pointer-events-none"></div>
+          <div class="relative space-y-3">
+            <div class="relative h-44 rounded-2xl bg-gradient-to-b from-amber-50/80 to-rose-50/40 border border-amber-200/60 flex flex-col items-center justify-center shadow-inner">
+              <span class="text-6xl filter drop-shadow">🍓🐘</span>
+              <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[10px] font-black bg-gradient-to-r from-amber-500 to-rose-500 text-white shadow-xs">OG SECRET</span>
+              <span class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500 text-white shadow-xs">🟢 Dispo</span>
             </div>
-            <div class="pt-3 border-t border-roseHub-100 mt-3 flex items-center justify-between">
-              <span class="text-xs font-black text-[#423235]">18,00 €</span>
-              <button onclick="openTradeWithItem('Strawberry Elephant', 1200000000)" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-roseHub-100 text-roseHub-600 hover:bg-roseHub-500 hover:text-white transition">
-                Trader ⚖️
-              </button>
+            <div>
+              <h3 class="font-extrabold text-base text-hub-dark">Strawberry Elephant</h3>
+              <p class="text-xs text-hub-dark/65 mt-0.5 line-clamp-2">L'item légendaire par excellence. Production massive pour grimper le leaderboard.</p>
+            </div>
+            <div class="bg-amber-50/70 border border-amber-100 rounded-xl p-2.5 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-amber-900">Génération :</span>
+              <span class="text-xs font-black text-amber-700">+1,2 B / sec</span>
             </div>
           </div>
-
-          <!-- Carte 2 : Dragon Cannelloni -->
-          <div class="snap-center shrink-0 w-[260px] rounded-2xl glass-card border border-roseHub-200/80 p-3.5 shadow-sm flex flex-col justify-between">
-            <div class="space-y-2.5">
-              <div class="relative h-32 rounded-xl bg-gradient-to-b from-purple-50 to-pink-50/40 border border-purple-200/60 flex items-center justify-center text-5xl shadow-inner">
-                🐉🍝
-                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-black bg-purple-500 text-white shadow-xs">SECRET GOLD</span>
-                <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-white/90 text-amber-600 border border-amber-200">Réservé</span>
-              </div>
-              <div>
-                <h3 class="font-black text-sm">Dragon Cannelloni</h3>
-                <p class="text-[11px] text-[#423235]/70 line-clamp-2">Mutation dorée brillante avec aura spéciale.</p>
-              </div>
-              <p class="text-xs font-black text-roseHub-500">+350 M/s</p>
+          <div class="pt-4 border-t border-hub-pinkLight/60 mt-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-hub-dark/50 block">Valeur</span>
+              <span class="text-base font-black text-hub-dark">18,00 €</span>
             </div>
-            <div class="pt-3 border-t border-roseHub-100 mt-3 flex items-center justify-between">
-              <span class="text-xs font-black text-[#423235]">10,00 €</span>
-              <button onclick="openTradeWithItem('Dragon Cannelloni', 350000000)" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-roseHub-100 text-roseHub-600 hover:bg-roseHub-500 hover:text-white transition">
-                Trader ⚖️
-              </button>
-            </div>
+            <button onclick="openTradeWithItem('Strawberry Elephant', 1200000000)" class="px-4 py-2 rounded-xl bg-hub-pink text-white text-xs font-bold hover:opacity-90 shadow-xs">
+              Trader ⚖️
+            </button>
           </div>
-
-          <!-- Carte 3 : Garama & Madundung -->
-          <div class="snap-center shrink-0 w-[260px] rounded-2xl glass-card border border-roseHub-200/80 p-3.5 shadow-sm flex flex-col justify-between">
-            <div class="space-y-2.5">
-              <div class="relative h-32 rounded-xl bg-gradient-to-b from-rose-50 to-pink-50/40 border border-roseHub-200/60 flex items-center justify-center text-5xl shadow-inner">
-                🧂✨
-                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-black bg-roseHub-500 text-white shadow-xs">MYTHIC</span>
-                <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-white/90 text-emerald-600 border border-emerald-200">Dispo</span>
-              </div>
-              <div>
-                <h3 class="font-black text-sm">Garama & Madundung</h3>
-                <p class="text-[11px] text-[#423235]/70 line-clamp-2">Le duo mythique et rapide en génération.</p>
-              </div>
-              <p class="text-xs font-black text-roseHub-500">+85 M/s</p>
-            </div>
-            <div class="pt-3 border-t border-roseHub-100 mt-3 flex items-center justify-between">
-              <span class="text-xs font-black text-[#423235]">5,00 €</span>
-              <button onclick="openTradeWithItem('Garama & Madundung', 85000000)" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-roseHub-100 text-roseHub-600 hover:bg-roseHub-500 hover:text-white transition">
-                Trader ⚖️
-              </button>
-            </div>
-          </div>
-
         </div>
 
-        <button onclick="scrollShop(1)" class="absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 rounded-full bg-white/95 border border-roseHub-200 text-roseHub-600 shadow-md flex items-center justify-center hover:bg-roseHub-50 transition">
-          <i data-lucide="chevron-right" class="w-5 h-5"></i>
-        </button>
+        <!-- CARTE 2 : Dragon Cannelloni -->
+        <div class="collector-card relative rounded-3xl bg-white border border-hub-pinkLight p-4 shadow-sm flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 holo-glow-secret pointer-events-none"></div>
+          <div class="relative space-y-3">
+            <div class="relative h-44 rounded-2xl bg-gradient-to-b from-purple-50/80 to-pink-50/40 border border-purple-200/60 flex flex-col items-center justify-center shadow-inner">
+              <span class="text-6xl filter drop-shadow">🐉🍝</span>
+              <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[10px] font-black bg-purple-600 text-white shadow-xs">SECRET GOLD</span>
+              <span class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-500 text-white shadow-xs">🟡 Réservé</span>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-hub-dark">Dragon Cannelloni</h3>
+              <p class="text-xs text-hub-dark/65 mt-0.5 line-clamp-2">Mutation Gold étincelante avec aura néon. Très recherché en échange.</p>
+            </div>
+            <div class="bg-purple-50/70 border border-purple-100 rounded-xl p-2.5 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-purple-900">Génération :</span>
+              <span class="text-xs font-black text-purple-700">+350 M / sec</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-hub-pinkLight/60 mt-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-hub-dark/50 block">Valeur</span>
+              <span class="text-base font-black text-hub-dark">10,00 €</span>
+            </div>
+            <button onclick="openTradeWithItem('Dragon Cannelloni [Gold]', 350000000)" class="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-bold hover:opacity-90 shadow-xs">
+              Trader ⚖️
+            </button>
+          </div>
+        </div>
+
+        <!-- CARTE 3 : Garama & Madundung -->
+        <div class="collector-card relative rounded-3xl bg-white border border-hub-pinkLight p-4 shadow-sm flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 holo-glow-mythic pointer-events-none"></div>
+          <div class="relative space-y-3">
+            <div class="relative h-44 rounded-2xl bg-gradient-to-b from-rose-50/80 to-pink-50/40 border border-hub-pinkLight flex flex-col items-center justify-center shadow-inner">
+              <span class="text-6xl filter drop-shadow">🧂✨</span>
+              <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[10px] font-black bg-hub-pink text-white shadow-xs">MYTHIC</span>
+              <span class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500 text-white shadow-xs">🟢 Dispo</span>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-hub-dark">Garama & Madundung</h3>
+              <p class="text-xs text-hub-dark/65 mt-0.5 line-clamp-2">Le duo viral du jeu. Excellent rapport rentabilité / coût.</p>
+            </div>
+            <div class="bg-rose-50/70 border border-hub-pinkLight rounded-xl p-2.5 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-hub-pink">Génération :</span>
+              <span class="text-xs font-black text-hub-pink">+85 M / sec</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-hub-pinkLight/60 mt-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-hub-dark/50 block">Valeur</span>
+              <span class="text-base font-black text-hub-dark">5,00 €</span>
+            </div>
+            <button onclick="openTradeWithItem('Garama & Madundung', 85000000)" class="px-4 py-2 rounded-xl bg-hub-pink text-white text-xs font-bold hover:opacity-90 shadow-xs">
+              Trader ⚖️
+            </button>
+          </div>
+        </div>
+
+        <!-- CARTE 4 : Cupcake Cat -->
+        <div class="collector-card relative rounded-3xl bg-white border border-hub-pinkLight p-4 shadow-sm flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 holo-glow-og pointer-events-none"></div>
+          <div class="relative space-y-3">
+            <div class="relative h-44 rounded-2xl bg-gradient-to-b from-blue-50/80 to-pink-50/40 border border-blue-200/60 flex flex-col items-center justify-center shadow-inner">
+              <span class="text-6xl filter drop-shadow">🧁🐱</span>
+              <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[10px] font-black bg-blue-500 text-white shadow-xs">GODLY RAINBOW</span>
+              <span class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500 text-white shadow-xs">🟢 Dispo</span>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-base text-hub-dark">Cupcake Cat</h3>
+              <p class="text-xs text-hub-dark/65 mt-0.5 line-clamp-2">Aura arc-en-ciel animée. Idéal pour compléter un inventaire.</p>
+            </div>
+            <div class="bg-blue-50/70 border border-blue-100 rounded-xl p-2.5 flex items-center justify-between">
+              <span class="text-[11px] font-bold text-blue-900">Génération :</span>
+              <span class="text-xs font-black text-blue-700">+520 M / sec</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-hub-pinkLight/60 mt-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-hub-dark/50 block">Valeur</span>
+              <span class="text-base font-black text-hub-dark">12,00 €</span>
+            </div>
+            <button onclick="openTradeWithItem('Cupcake Cat [Rainbow]', 520000000)" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:opacity-90 shadow-xs">
+              Trader ⚖️
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- Réseaux -->
-    <section id="section-links" class="relative space-y-2.5">
+    <!-- SECTION RÉSEAUX (Masquable avec œil 👁️) -->
+    <section id="section-links" class="relative space-y-4">
       <div class="flex items-center justify-between">
-        <h2 class="text-xs font-extrabold uppercase tracking-wider text-[#423235]/80">Mes Réseaux</h2>
-        <button onclick="toggleVisibility('links')" class="admin-eye hidden p-1.5 rounded-full bg-white border border-roseHub-200 text-roseHub-500 shadow-xs">
+        <h2 class="text-lg font-black text-hub-dark">Mes Réseaux & Communauté</h2>
+        <button onclick="toggleVisibility('links')" class="admin-eye hidden p-2 rounded-xl bg-white border border-hub-pinkLight text-hub-pink shadow">
           <i data-lucide="eye" class="w-4 h-4"></i>
         </button>
       </div>
-      <a href="https://tiktok.com" target="_blank" class="w-full p-4 rounded-2xl glass-card border border-roseHub-200/80 shadow-xs flex items-center justify-between hover:bg-roseHub-100/50 transition">
-        <div class="flex items-center gap-3">
-          <span class="text-xl">🎵</span>
-          <span class="text-xs sm:text-sm font-bold">TikTok Officiel</span>
-        </div>
-        <i data-lucide="external-link" class="w-4 h-4 text-roseHub-500"></i>
-      </a>
-      <a href="https://discord.gg" target="_blank" class="w-full p-4 rounded-2xl glass-card border border-roseHub-200/80 shadow-xs flex items-center justify-between hover:bg-roseHub-100/50 transition">
-        <div class="flex items-center gap-3">
-          <span class="text-xl">💬</span>
-          <span class="text-xs sm:text-sm font-bold">Serveur Discord</span>
-        </div>
-        <i data-lucide="external-link" class="w-4 h-4 text-roseHub-500"></i>
-      </a>
-      <a href="https://roblox.com" target="_blank" class="w-full p-4 rounded-2xl glass-card border border-roseHub-200/80 shadow-xs flex items-center justify-between hover:bg-roseHub-100/50 transition">
-        <div class="flex items-center gap-3">
-          <span class="text-xl">🧱</span>
-          <span class="text-xs sm:text-sm font-bold">Profil Roblox</span>
-        </div>
-        <i data-lucide="external-link" class="w-4 h-4 text-roseHub-500"></i>
-      </a>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="https://tiktok.com" target="_blank" class="p-5 rounded-2xl bg-white border border-hub-pinkLight shadow-xs flex items-center justify-between hover:border-hub-pink transition group">
+          <div class="flex items-center gap-3.5">
+            <span class="text-2xl">🎵</span>
+            <div>
+              <span class="text-xs font-bold uppercase text-hub-dark/50 block">Live & Clips</span>
+              <span class="text-sm font-extrabold text-hub-dark group-hover:text-hub-pink transition">TikTok Officiel</span>
+            </div>
+          </div>
+          <i data-lucide="external-link" class="w-4 h-4 text-hub-dark/40 group-hover:text-hub-pink transition"></i>
+        </a>
+        <a href="https://discord.gg" target="_blank" class="p-5 rounded-2xl bg-white border border-hub-pinkLight shadow-xs flex items-center justify-between hover:border-hub-pink transition group">
+          <div class="flex items-center gap-3.5">
+            <span class="text-2xl">💬</span>
+            <div>
+              <span class="text-xs font-bold uppercase text-hub-dark/50 block">Trades & Giveaways</span>
+              <span class="text-sm font-extrabold text-hub-dark group-hover:text-hub-pink transition">Serveur Discord</span>
+            </div>
+          </div>
+          <i data-lucide="external-link" class="w-4 h-4 text-hub-dark/40 group-hover:text-hub-pink transition"></i>
+        </a>
+        <a href="https://roblox.com" target="_blank" class="p-5 rounded-2xl bg-white border border-hub-pinkLight shadow-xs flex items-center justify-between hover:border-hub-pink transition group">
+          <div class="flex items-center gap-3.5">
+            <span class="text-2xl">🧱</span>
+            <div>
+              <span class="text-xs font-bold uppercase text-hub-dark/50 block">Rejoindre en jeu</span>
+              <span class="text-sm font-extrabold text-hub-dark group-hover:text-hub-pink transition">Profil Roblox</span>
+            </div>
+          </div>
+          <i data-lucide="external-link" class="w-4 h-4 text-hub-dark/40 group-hover:text-hub-pink transition"></i>
+        </a>
+      </div>
     </section>
+
   </main>
 
-  <!-- VUE 2 : TRADE CALCULATOR -->
-  <main id="view-trade" class="hidden max-w-2xl mx-auto px-4 py-8 space-y-6">
-    <div class="flex items-center justify-between">
-      <button onclick="closeTradeView()" class="flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-full bg-white border border-roseHub-200 text-roseHub-600 shadow-xs hover:bg-roseHub-50">
-        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-        <span>Retour au Hub</span>
+  <!-- ================= VUE 2 : TRADE CALCULATOR ================= -->
+  <main id="view-trade" class="hidden max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-7">
+    <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-hub-pinkLight shadow-xs">
+      <button onclick="closeTradeView()" class="flex items-center gap-2 text-xs font-black px-4 py-2 rounded-xl bg-hub-pinkLight text-hub-pink hover:bg-hub-pink hover:text-white transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Retour à la Boutique</span>
       </button>
-      <span class="text-xs font-extrabold uppercase tracking-wider text-roseHub-500">Simulateur d'échange</span>
+      <span class="text-xs font-black uppercase tracking-wider text-hub-pink">Calculateur d'échange Steal a Brainrot</span>
     </div>
 
-    <!-- Échange Face-à-Face -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- ÉCHANGE FACE-À-FACE -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       
       <!-- Offre Visiteur -->
-      <div class="glass-card p-4 rounded-2xl border border-roseHub-200 space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-black uppercase text-[#423235]">Ton Offre</span>
-          <button onclick="addItemPrompt('user')" class="text-[11px] font-bold text-roseHub-600 bg-roseHub-100 px-2 py-0.5 rounded-lg hover:bg-roseHub-200">+ Item</button>
+      <div class="bg-white p-6 rounded-3xl border border-hub-pinkLight shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-hub-pinkLight">
+          <span class="text-sm font-black uppercase text-hub-dark">Ton Offre</span>
+          <button onclick="addItemPrompt('user')" class="text-xs font-bold text-hub-pink bg-hub-pinkLight px-3 py-1 rounded-xl hover:bg-hub-pink hover:text-white transition">+ Ajouter un Item</button>
         </div>
-        <div id="user-trade-list" class="min-h-[100px] space-y-1.5 text-xs text-[#423235]/60">
-          <p class="text-xs italic text-center pt-8">Ajoute ce que tu proposes</p>
+        <div id="user-trade-list" class="min-h-[140px] space-y-2 text-xs text-hub-dark/60">
+          <p class="text-xs italic text-center pt-12">Ajoute les items que tu proposes en échange</p>
         </div>
-        <div class="pt-2 border-t border-roseHub-100">
-          <label class="text-[10px] font-bold text-[#423235]/70 block mb-1">+ Argent Réel (€) :</label>
-          <input type="number" id="user-cash-input" min="0" step="0.5" placeholder="0 €" oninput="updateTradeTotals()" class="w-full text-xs px-3 py-2 rounded-xl border border-roseHub-200 bg-white focus:outline-none focus:ring-1 focus:ring-roseHub-500">
+        <div class="pt-3 border-t border-hub-pinkLight space-y-1.5">
+          <label class="text-[11px] font-black text-hub-dark/70 block">+ Argent Réel (€) en complément :</label>
+          <input type="number" id="user-cash-input" min="0" step="0.5" placeholder="Ex: 5 €" oninput="updateTradeTotals()" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-hub-pinkLight bg-hub-bg focus:outline-none focus:ring-2 focus:ring-hub-pink">
         </div>
-        <p class="text-xs font-black text-roseHub-500 text-right" id="user-total-stat">0 /s</p>
+        <div class="flex items-center justify-between pt-2">
+          <span class="text-xs font-bold text-hub-dark/60">Total de ton offre :</span>
+          <span class="text-sm font-black text-hub-pink" id="user-total-stat">0 /s</span>
+        </div>
       </div>
 
       <!-- Offre Lina -->
-      <div class="glass-card p-4 rounded-2xl border border-roseHub-200 space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-black uppercase text-[#423235]">Offre de Lina</span>
-          <button onclick="addItemPrompt('lina')" class="text-[11px] font-bold text-roseHub-600 bg-roseHub-100 px-2 py-0.5 rounded-lg hover:bg-roseHub-200">+ Item</button>
+      <div class="bg-white p-6 rounded-3xl border border-hub-pinkLight shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-hub-pinkLight">
+          <span class="text-sm font-black uppercase text-hub-dark">Item(s) de Lina demandés</span>
+          <button onclick="addItemPrompt('lina')" class="text-xs font-bold text-hub-pink bg-hub-pinkLight px-3 py-1 rounded-xl hover:bg-hub-pink hover:text-white transition">+ Ajouter un Item</button>
         </div>
-        <div id="lina-trade-list" class="min-h-[100px] space-y-1.5 text-xs text-[#423235]/60">
-          <p class="text-xs italic text-center pt-8">Sélectionne un Brainrot du shop</p>
+        <div id="lina-trade-list" class="min-h-[140px] space-y-2 text-xs text-hub-dark/60">
+          <p class="text-xs italic text-center pt-12">Choisis un item depuis la vitrine</p>
         </div>
-        <div class="pt-2 border-t border-roseHub-100 text-transparent select-none text-[10px]">—</div>
-        <p class="text-xs font-black text-roseHub-500 text-right" id="lina-total-stat">0 /s</p>
+        <div class="pt-3 border-t border-hub-pinkLight select-none text-transparent text-[11px]">
+          Placeholder alignement
+        </div>
+        <div class="flex items-center justify-between pt-2">
+          <span class="text-xs font-bold text-hub-dark/60">Total demandé :</span>
+          <span class="text-sm font-black text-hub-pink" id="lina-total-stat">0 /s</span>
+        </div>
       </div>
     </div>
 
-    <!-- Récapitulatif -->
-    <div class="p-4 rounded-2xl glass-card border border-roseHub-200 text-center space-y-1">
-      <p class="text-xs font-black uppercase tracking-wider text-[#423235]">Récapitulatif de l'offre</p>
-      <p id="trade-summary-text" class="text-xs text-[#423235]/75">Configure ton échange ci-dessus.</p>
+    <!-- RÉCAPITULATIF PROPOSITION -->
+    <div class="p-5 rounded-2xl bg-white border border-hub-pinkLight shadow-xs text-center space-y-1.5">
+      <p class="text-xs font-black uppercase tracking-wider text-hub-dark">Récapitulatif de ta proposition</p>
+      <p id="trade-summary-text" class="text-xs sm:text-sm text-hub-dark/75">Sélectionne les items des deux côtés ci-dessus.</p>
     </div>
 
-    <!-- Coordonnées -->
-    <div class="glass-card p-5 rounded-2xl border border-roseHub-200 space-y-3.5">
-      <h3 class="text-xs font-black uppercase tracking-wider text-[#423235]">Tes Coordonnées</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <input type="text" id="input-roblox" placeholder="Pseudo Roblox ou TikTok *" class="w-full text-xs px-3 py-2.5 rounded-xl border border-roseHub-200 bg-white focus:outline-none focus:ring-1 focus:ring-roseHub-500">
-        <input type="text" id="input-discord" placeholder="Identifiant Discord (ex: pseudo#0000)" class="w-full text-xs px-3 py-2.5 rounded-xl border border-roseHub-200 bg-white focus:outline-none focus:ring-1 focus:ring-roseHub-500">
+    <!-- COORDONNÉES & ACTION -->
+    <div class="bg-white p-6 rounded-3xl border border-hub-pinkLight shadow-sm space-y-4">
+      <h3 class="text-sm font-black uppercase tracking-wider text-hub-dark">Tes Coordonnées pour l'échange</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input type="text" id="input-roblox" placeholder="Ton pseudo Roblox ou TikTok *" class="w-full text-xs px-4 py-3 rounded-xl border border-hub-pinkLight bg-hub-bg focus:outline-none focus:ring-2 focus:ring-hub-pink">
+        <input type="text" id="input-discord" placeholder="Ton pseudo Discord (ex: alex#1234)" class="w-full text-xs px-4 py-3 rounded-xl border border-hub-pinkLight bg-hub-bg focus:outline-none focus:ring-2 focus:ring-hub-pink">
       </div>
-      <div class="grid grid-cols-2 gap-3 pt-1">
-        <button onclick="copyOfferText()" class="w-full py-2.5 px-3 rounded-xl bg-white border border-roseHub-200 text-roseHub-600 text-xs font-bold shadow-xs hover:bg-roseHub-50 flex items-center justify-center gap-1.5">
-          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-          <span>Copier l'Offre</span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+        <button onclick="copyOfferText()" class="w-full py-3 px-4 rounded-xl bg-white border border-hub-pink text-hub-pink text-xs font-bold hover:bg-hub-pinkLight/50 flex items-center justify-center gap-2 transition">
+          <i data-lucide="copy" class="w-4 h-4"></i>
+          <span>Copier le Récapitulatif</span>
         </button>
-        <button onclick="sendToDiscord()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-roseHub-500 to-rose-400 text-white text-xs font-bold shadow-xs hover:opacity-95 flex items-center justify-center gap-1.5">
-          <i data-lucide="send" class="w-3.5 h-3.5"></i>
-          <span>Envoyer Discord</span>
+        <button onclick="sendToDiscord()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-hub-pink to-rose-400 text-white text-xs font-black shadow-md hover:opacity-95 flex items-center justify-center gap-2 transition">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          <span>Contacter sur Discord</span>
         </button>
       </div>
     </div>
@@ -296,11 +400,6 @@
     let userTradeItems = [];
     let linaTradeItems = [];
 
-    function scrollShop(dir) {
-      const container = document.getElementById('shop-carousel');
-      container.scrollBy({ left: dir * 280, behavior: 'smooth' });
-    }
-
     function toggleAdminPrompt() {
       if (!isAdmin) {
         const pwd = prompt('Mot de passe administrateur :');
@@ -308,6 +407,7 @@
           isAdmin = true;
           document.getElementById('admin-status-text').textContent = 'Admin (Actif)';
           document.querySelectorAll('.admin-eye').forEach(el => el.classList.remove('hidden'));
+          alert('Mode Administrateur activé !');
         } else if (pwd !== null) {
           alert('Mot de passe incorrect.');
         }
@@ -315,13 +415,14 @@
         isAdmin = false;
         document.getElementById('admin-status-text').textContent = 'Admin';
         document.querySelectorAll('.admin-eye').forEach(el => el.classList.add('hidden'));
+        alert('Mode Administrateur déconnecté.');
       }
     }
 
     function toggleVisibility(sectionKey) {
       const el = document.getElementById(`section-${sectionKey}`);
       if (!el) return;
-      el.classList.toggle('opacity-30');
+      el.classList.toggle('opacity-25');
       el.classList.toggle('grayscale');
     }
 
@@ -344,9 +445,9 @@
     }
 
     function addItemPrompt(side) {
-      const name = prompt("Nom de l'item :");
+      const name = prompt("Nom du Brainrot / Item :");
       if (!name) return;
-      const rateInput = prompt("Production par seconde en Millions (ex: 100 pour 100M/s) :", "100");
+      const rateInput = prompt("Production par seconde en Millions (ex: 100 pour 100M/s, 1000 pour 1B/s) :", "100");
       const rate = (parseFloat(rateInput) || 0) * 1000000;
 
       if (side === 'user') userTradeItems.push({ name, rate });
@@ -365,20 +466,20 @@
       const lEl = document.getElementById('lina-trade-list');
 
       uEl.innerHTML = userTradeItems.length === 0 
-        ? '<p class="text-xs italic text-center pt-8">Ajoute ce que tu proposes</p>'
+        ? '<p class="text-xs italic text-center pt-12">Ajoute les items que tu proposes en échange</p>'
         : userTradeItems.map((it, i) => `
-          <div class="flex items-center justify-between bg-white/90 px-2.5 py-1.5 rounded-lg border border-roseHub-100">
-            <span>${it.name}</span>
-            <button onclick="removeItem('user', ${i})" class="text-rose-400 font-bold ml-1">×</button>
+          <div class="flex items-center justify-between bg-hub-bg px-3 py-2 rounded-xl border border-hub-pinkLight">
+            <span class="font-bold text-hub-dark">${it.name} <span class="text-hub-pink text-[11px]">(${formatRate(it.rate)})</span></span>
+            <button onclick="removeItem('user', ${i})" class="text-rose-400 hover:text-rose-600 font-black text-sm">×</button>
           </div>
         `).join('');
 
       lEl.innerHTML = linaTradeItems.length === 0 
-        ? '<p class="text-xs italic text-center pt-8">Sélectionne un Brainrot du shop</p>'
+        ? '<p class="text-xs italic text-center pt-12">Choisis un item depuis la vitrine</p>'
         : linaTradeItems.map((it, i) => `
-          <div class="flex items-center justify-between bg-white/90 px-2.5 py-1.5 rounded-lg border border-roseHub-100">
-            <span>${it.name}</span>
-            <button onclick="removeItem('lina', ${i})" class="text-rose-400 font-bold ml-1">×</button>
+          <div class="flex items-center justify-between bg-hub-bg px-3 py-2 rounded-xl border border-hub-pinkLight">
+            <span class="font-bold text-hub-dark">${it.name} <span class="text-hub-pink text-[11px]">(${formatRate(it.rate)})</span></span>
+            <button onclick="removeItem('lina', ${i})" class="text-rose-400 font-bold text-sm">×</button>
           </div>
         `).join('');
 
@@ -396,11 +497,11 @@
       const linaTotal = linaTradeItems.reduce((acc, it) => acc + it.rate, 0);
       const cashVal = parseFloat(document.getElementById('user-cash-input').value) || 0;
 
-      document.getElementById('user-total-stat').textContent = `${formatRate(userTotal)} ${cashVal > 0 ? `(+${cashVal}€)` : ''}`;
+      document.getElementById('user-total-stat').textContent = `${formatRate(userTotal)} ${cashVal > 0 ? `(+${cashVal} €)` : ''}`;
       document.getElementById('lina-total-stat').textContent = formatRate(linaTotal);
 
       document.getElementById('trade-summary-text').textContent = 
-        `Ton offre : ${userTradeItems.length} item(s) (${formatRate(userTotal)})${cashVal > 0 ? ` + ${cashVal} €` : ''} ➔ Offre de Lina : ${linaTradeItems.length} item(s) (${formatRate(linaTotal)})`;
+        `Ton offre : ${userTradeItems.length} item(s) (${formatRate(userTotal)})${cashVal > 0 ? ` + ${cashVal} €` : ''} ➔ Demandé chez Lina : ${linaTradeItems.length} item(s) (${formatRate(linaTotal)})`;
     }
 
     function copyOfferText() {
@@ -411,16 +512,16 @@
       const userItemsStr = userTradeItems.map(it => `• ${it.name} (${formatRate(it.rate)})`).join('\n') || 'Aucun item';
       const linaItemsStr = linaTradeItems.map(it => `• ${it.name} (${formatRate(it.rate)})`).join('\n') || 'Aucun item';
 
-      const msg = `🌸 PROPOSITION DE TRADE ROBLOX\n━━━━━━━━━━━━━━━━━━━━\n👤 Pseudo : ${pseudo}\n💬 Discord : ${discord}\n\n📥 IL DONNE :\n${userItemsStr}\n${cashVal > 0 ? `💶 Argent réel : +${cashVal} €\n` : ''}\n📤 IL SOUHAITE :\n${linaItemsStr}`;
+      const msg = `🌸 PROPOSITION DE TRADE ROBLOX\n━━━━━━━━━━━━━━━━━━━━\n👤 Pseudo : ${pseudo}\n💬 Discord : ${discord}\n\n📥 OFFRE DU JOUEUR :\n${userItemsStr}\n${cashVal > 0 ? `💶 Argent réel : +${cashVal} €\n` : ''}\n📤 DEMANDE (Shop de Lina) :\n${linaItemsStr}`;
 
       navigator.clipboard.writeText(msg).then(() => {
-        alert('Proposition copiée !');
+        alert('Proposition copiée dans le presse-papier !');
       });
     }
 
     function sendToDiscord() {
       copyOfferText();
-      window.open('https://discord.com', '_blank');
+      window.open('https://discord.gg', '_blank');
     }
   </script>
 </body>
