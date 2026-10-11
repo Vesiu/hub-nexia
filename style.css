@@ -98,3 +98,5 @@ body:not(.ready) main{opacity:0}
  #panel .msg{font-size:.72rem;margin:2px 0 6px}
  body.sheet main{padding-bottom:55vh}
 }
+
+.avatar img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
